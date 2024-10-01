@@ -6,8 +6,8 @@ class Ville(models.Model):
     nom = models.CharField(max_length=100)
     code_postal = models.IntegerField()
     prix_m_2 = models.IntegerField()
-
-
+    
+    
 # Classes abstraites
 
 # Modèle abstrait pour les locaux (ex : usine, siège social)
@@ -79,14 +79,14 @@ class QuantiteRessource(models.Model):
 
 # Modèle représentant le stock d'un objet
 class Stock(models.Model):
-    objet = models.ForeignKey(
-        Objet,  # Association avec un objet
-        on_delete=models.PROTECT,  # La suppression d'un objet n'entraîne pas celle du stock
+    ressource = models.ForeignKey(
+        Ressource,  # Association avec une ressource
+        on_delete=models.PROTECT,  # La suppression d'une ressource n'entraîne pas celle du stock
     )
-    nombre = models.IntegerField()  # Nombre d'objets en stock
+    nombre = models.IntegerField()
 
     def __str__(self):
-        return str(self.objet)
+        return self.objet
 
 
 # Modèle représentant une étape dans un processus de production
@@ -104,7 +104,7 @@ class Etape(models.Model):
     )
 
     etape_suivante = models.ForeignKey(
-        "self",  # Référence à l'étape suivante (relation récursive)
+        "self",  # Référence à l'étape suivante (relation récursive vers la classe elle meme)
         on_delete=models.PROTECT,
     )
 
@@ -116,5 +116,5 @@ class Etape(models.Model):
 class Produit(Objet):
     premiere_etape = models.ForeignKey(
         Etape,  # Première étape de fabrication du produit
-        on_delete=models.PROTECT,  # La suppression d'une étape n'entraîne pas celle du produit
+        on_delete=models.PROTECT,  
     )
