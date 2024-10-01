@@ -2,6 +2,7 @@
 from django.db import models
 
 
+### def costs dans stock / usine / machines / ensuite faire la somme
 # Modèle représentant une ville avec nom, code postal et prix au mètre carré
 class Ville(models.Model):
     nom = models.CharField(max_length=100)
@@ -46,26 +47,6 @@ class Objet(models.Model):
 # Classes concrètes (non-abstraites)
 
 
-# Modèle représentant un siège social, héritant de la classe Local
-class SiegeSocial(Local):
-    pass
-
-
-# Modèle représentant une machine avec son nom, prix et numéro de série
-class Machine(models.Model):
-    nom = models.CharField(max_length=100)
-    prix = models.IntegerField()
-    n_serie = models.IntegerField()
-
-    def __str__(self):
-        return self.nom
-
-
-# Modèle représentant une usine, qui possède plusieurs machines
-class Usine(Local):
-    machines = models.ManyToManyField(Machine)
-
-
 # Modèle représentant une ressource, qui hérite d'Objet
 class Ressource(Objet):
     pass
@@ -82,6 +63,42 @@ class QuantiteRessource(models.Model):
     def __str__(self):
         return self.ressource.nom
 
+    def costs(self):
+        Total = self.ressource.prix * self.quantite
+        return Total
+
+
+# Modèle représentant un siège social, héritant de la classe Local
+class SiegeSocial(Local):
+    pass
+
+
+# Modèle représentant une machine avec son nom, prix et numéro de série
+class Machine(models.Model):
+    nom = models.CharField(max_length=100)
+    prix = models.IntegerField()
+    n_serie = models.IntegerField()
+
+    def __str__(self):
+        return self.nom
+
+    def costs(self):
+        return self.prix
+
+
+# Modèle représentant une usine, qui possède plusieurs machines
+class Usine(Local):
+    machines = models.ManyToManyField(Machine)
+
+    def costs(self):
+        Prix_terrain = self.ville.prix_m_2 * self.surface
+        Prix_machines = 0  # Initialisation
+
+        for machines in self.machines.all():
+            Prix_machines = Prix_machines + machines.prix
+
+        return Prix_terrain + Prix_machines
+
 
 # Modèle représentant le stock d'un objet
 class Stock(models.Model):
@@ -89,10 +106,18 @@ class Stock(models.Model):
         Ressource,  # Association avec une ressource
         on_delete=models.PROTECT,  # La suppression d'une ressource n'entraîne pas celle du stock
     )
+    usine = models.ForeignKey(
+        Usine,  # Association avec Usine
+        on_delete=models.PROTECT,  # La suppression d'un stock ne supprime pas l'usine
+    )
     nombre = models.IntegerField()
 
     def __str__(self):
         return self.ressource.nom
+
+    def costs(self):
+        Prix_stock = self.nombre * self.ressource.prix
+        return Prix_stock
 
 
 # Modèle représentant une étape dans un processus de production
