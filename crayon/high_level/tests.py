@@ -28,9 +28,16 @@ class MachineModelTests(TestCase):
         # QR2 = QuantiteRessource.objects.create(ressource=R2, quantite=1)
 
         U1 = Usine.objects.create(nom="TLS1", ville=V1, surface=50)
+        # Attribuer chaque machine à l'usine
+        U1.machines1 = M1
+        U1.machines2 = M2
 
         S1 = Stock.objects.create(ressource=R1, usine=U1, nombre=1000)
         S2 = Stock.objects.create(ressource=R2, usine=U1, nombre=50)
 
         Total = U1.costs() + S1.costs() + S2.costs() + M1.costs() + M2.costs()
-        print(Total)  # Usine.objects.first().costs()
+
+        print("Cout usine 1 : ", Usine.objects.first().costs())
+        print("Cout machine : ", M1.costs() + M2.costs())
+        print("Cout stock : ", S1.costs() + S2.costs())
+        print("Cout total de l'usine : ", Total)  # Usine.objects.first().costs()
