@@ -9,13 +9,14 @@ from .models import Stock
 
 class MachineModelTests(TestCase):
     def test_machine_creation(self):
-        self.assertEqual(Machine.objects.count(), 0)  # verifier qu'au debut on a rien
-        Machine.objects.create(nom="scie", prix=1000, n_serie="16832")
-        self.assertEqual(
-            Machine.objects.count(), 1
-        )  # basculer entre 1 et 2 Pour mieux visualiser et interpreter le test
+    	print("Test creation de machine [START] \n \n")
+    	self.assertEqual(Machine.objects.count(), 0)  # verifier qu'au debut on a rien
+    	Machine.objects.create(nom="scie", prix=1000, n_serie="16832")
+    	self.assertEqual(Machine.objects.count(), 1) # basculer entre 1 et 2 Pour mieux visualiser et interpreter le test
+    	print("Test creation de machine [END] \n \n")
 
     def test_usine_creation(self):
+        print("Test creation de l'usine [START] \n \n")
         M1 = Machine.objects.create(nom="machine 1", prix=1000, n_serie="16832")
         M2 = Machine.objects.create(nom="machine 2", prix=2000, n_serie="26832")
 
@@ -41,3 +42,4 @@ class MachineModelTests(TestCase):
         print("Cout machine : ", M1.costs() + M2.costs())
         print("Cout stock : ", S1.costs() + S2.costs())
         print("Cout total de l'usine : ", Total)  # Usine.objects.first().costs()
+        print("Test creation de l'usine [END] \n \n")

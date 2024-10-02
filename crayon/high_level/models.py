@@ -98,6 +98,30 @@ class Usine(Local):
             Prix_machines = Prix_machines + machines.prix
 
         return Prix_terrain + Prix_machines
+    '''
+    def supply(self,produit,demande):
+    	ressources_necessaires = {}
+    	
+    	# on parcours les etapes de production pour calculer les ressources necessaires
+    	etape = produit.premiere_etpae
+    	while etape:
+    		quantite_totale = etpae.quantite_ressource.quantite * demande 
+    		ressource = etape.quantite_ressource.ressource
+    		
+			# On fait la somme des ressources necessaires 
+			if ressource in ressources_necessaires:
+				ressource_necessaires[ressources] += quantite_totale
+			else:
+				ressource_necessaires[ressource] = quantite_totale
+				
+			etape = etape.etape_suivant  # On passe à l'etape suivante de production 
+
+
+		achats = {}  #
+		# On verifie le stock 
+		à discuter comment recuperer tous les stocks de l'usine. 
+	'''
+
 
 
 # Modèle représentant le stock d'un objet
