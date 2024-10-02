@@ -1,2 +1,2 @@
 ## Dependencies
-- [django]([https://pandoc.org/](https://www.djangoproject.com/))
+- [django](https://www.djangoproject.com/)
