@@ -12,6 +12,13 @@ class Ville(models.Model):
     def __str__(self):
         return self.nom
 
+    def json(self):
+        d = {"Nom": self.nom, "CP": self.code_postal, "Prix/m^2": self.prix_m_2}
+        return d
+
+    def json_extended(self):
+        return self.json()
+
 
 # Classes abstraites
 
@@ -49,7 +56,12 @@ class Objet(models.Model):
 
 # Modèle représentant une ressource, qui hérite d'Objet
 class Ressource(Objet):
-    pass
+    def json(self):
+        d = {"Nom": self.nom, "Prix": self.prix}
+        return d
+
+    def json_extended(self):
+        return self.json()
 
 
 # Modèle représentant la quantité d'une ressource spécifique
@@ -67,10 +79,28 @@ class QuantiteRessource(models.Model):
         Total = self.ressource.prix * self.quantite
         return Total
 
+    def json(self):
+        d = {"Resource": self.ressource.id, "Quantite": self.quantite}
+        return d
+
+    def json_extended(self):
+        d = {"Resource": self.ressource.json_extended(), "Quantite": self.quantite}
+        return d
+
 
 # Modèle représentant un siège social, héritant de la classe Local
 class SiegeSocial(Local):
-    pass
+    def json(self):
+        d = {"Nom": self.nom, "Surface": self.surface, "Ville": self.ville.id}
+        return d
+
+    def json_extended(self):
+        d = {
+            "Nom": self.nom,
+            "Surface": self.surface,
+            "Ville": self.ville.json_extended(),
+        }
+        return d
 
 
 # Modèle représentant une machine avec son nom, prix et numéro de série
@@ -84,6 +114,13 @@ class Machine(models.Model):
 
     def costs(self):
         return self.prix
+
+    def json(self):
+        d = {"Nom": self.nom, "Prix": self.prix, "n° de serie": self.n_serie}
+        return d
+
+    def json_extended(self):
+        return self.json()
 
 
 # Modèle représentant une usine, qui possède plusieurs machines
@@ -123,6 +160,21 @@ class Usine(Local):
 		à discuter comment recuperer tous les stocks de l'usine.
 	"""
 
+    def json(self):
+        d = {
+            "Machine": [machines.pk for machines in Machine.objects.all()],
+        }
+        return d
+
+    def json_extended(self):
+        d = {
+            "Nom": self.nom,
+            "Ville": self.ville.json_extended(),
+            "Surface": self.surface,
+            "Machine": [machines.json_extended() for machines in Machine.objects.all()],
+        }
+        return d
+
 
 # Modèle représentant le stock d'un objet
 class Stock(models.Model):
@@ -142,6 +194,22 @@ class Stock(models.Model):
     def costs(self):
         Prix_stock = self.nombre * self.ressource.prix
         return Prix_stock
+
+    def json(self):
+        d = {
+            "Ressource ID ": self.ressource.id,
+            "Usine ID": self.usine.id,
+            "Nombre": self.nombre,
+        }
+        return d
+
+    def json_extended(self):
+        d = {
+            "Ressource": self.ressource.json_extended(),
+            "Usine": self.usine.json_extended(),
+            "Nombre": self.nombre,
+        }
+        return d
 
 
 # Modèle représentant une étape dans un processus de production
@@ -168,6 +236,26 @@ class Etape(models.Model):
     def __str__(self):
         return self.nom
 
+    def json(self):
+        d = {
+            "Nom": self.nom,
+            "Durée": self.duree,
+            "Quantité necessaire": self.quantite_ressource.id,
+            "Machine ID": self.machine.id,
+            "Etape suivante ID": self.etape_suivante.id,
+        }
+        return d
+
+    def json_extended(self):
+        d = {
+            "Nom": self.nom,
+            "Durée": self.duree,
+            "Quantité necessaire": self.quantite_ressource.json_extended(),
+            "Machine": self.machine.json_extended(),
+            "Etape suivante": self.etape_suivante.json_extended(),
+        }
+        return d
+
 
 # Modèle représentant un produit qui a une première étape de production
 class Produit(Objet):
@@ -175,3 +263,13 @@ class Produit(Objet):
         Etape,  # Première étape de fabrication du produit
         on_delete=models.PROTECT,
     )
+
+    def json(self):
+        d = {"Premiere etape": self.premiere_etape.id}
+        return d
+
+    def json_extended(self):
+        d = {
+            "Premiere etape": self.premiere_etape.json_extended(),
+        }
+        return d
