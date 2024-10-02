@@ -9,11 +9,13 @@ from .models import Stock
 
 class MachineModelTests(TestCase):
     def test_machine_creation(self):
-    	print("Test creation de machine [START] \n \n")
-    	self.assertEqual(Machine.objects.count(), 0)  # verifier qu'au debut on a rien
-    	Machine.objects.create(nom="scie", prix=1000, n_serie="16832")
-    	self.assertEqual(Machine.objects.count(), 1) # basculer entre 1 et 2 Pour mieux visualiser et interpreter le test
-    	print("Test creation de machine [END] \n \n")
+        print("Test creation de machine [START] \n \n")
+        self.assertEqual(Machine.objects.count(), 0)  # verifier qu'au debut on a rien
+        Machine.objects.create(nom="scie", prix=1000, n_serie="16832")
+        self.assertEqual(
+            Machine.objects.count(), 1
+        )  # basculer entre 1 et 2 Pour mieux visualiser et interpreter le test
+        print("Test creation de machine [END] \n \n")
 
     def test_usine_creation(self):
         print("Test creation de l'usine [START] \n \n")
