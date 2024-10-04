@@ -51,7 +51,7 @@ class Local {
  public:
   string nom;
   int surface;
-  Ville* ville;  // Pointeur vers une ville
+  Ville* ville;  // Pointeur
 };
 
 // Classe abstraite Objet
@@ -91,5 +91,17 @@ auto main() -> int {
   const auto v1 = Ville(1);
   std::cout << v1 << std::endl;
 
-  return 0;
+  std::unique_ptr<Ville> pLocal = std::make_unique<Local>()
+
+      return 0;
 }
+
+/*y
+class Usine{
+std::unique_ptr<Ville> ville;
+}
+
+dans cette classe, on definit un pointeur unique qui indique que une unsine peut
+exister que dans une seule ville.
+
+*/
