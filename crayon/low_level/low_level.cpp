@@ -1,5 +1,8 @@
 #include <cpr/cpr.h>
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -38,6 +41,10 @@ auto main() -> int {
   std::cout << r.status_code
             << std::endl;  // verification si status code est OK ou pas
   std::cout << r.text << std::endl;
+
+  json ville = json::parse(r.text);
+  // verification
+  std::cout << ville["CP"] << std::endl;  // Regarder le Readme JSON
 
   return 0;
 }
