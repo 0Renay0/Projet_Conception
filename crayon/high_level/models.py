@@ -219,6 +219,9 @@ class Etape(models.Model):
     quantite_ressource = models.ForeignKey(
         QuantiteRessource,  # Ressource requise pour cette étape
         on_delete=models.PROTECT,  # La suppression d'une ressource n'entraîne pas celle de l'étape
+        blank=True,
+        null=True,
+        
     )
 
     machine = models.ForeignKey(
