@@ -194,7 +194,13 @@ class Produit(Objet):
 class Usine(Local):
     machines = models.ManyToManyField(Machine)
     produit = models.ManyToManyField(Produit)
-
+    Siege_Social = models.ForeignKey(
+    	SiegeSocial,
+    	on_delete=models.PROTECT,
+    	null = True,
+    	blank = True,
+    )
+   
     def costs(self):
         Prix_terrain = self.ville.prix_m_2 * self.surface
         Prix_machines = 0  # Initialisation
@@ -203,35 +209,41 @@ class Usine(Local):
             Prix_machines = Prix_machines + machines.prix
 
         return Prix_terrain + Prix_machines
-
-    """
-    def supply(self,produit,demande):
-    	ressources_necessaires = {}
-
-    	# on parcours les etapes de production pour calculer les ressources necessaires
-    	etape = produit.premiere_etpae
+        
+    def Acheter_Ressources(self,produit,nombre_crayon):
+    	ressources_manquantes = {}
+    	# On parcours les etapes de produit pour determiner la quantite des ressources manquantes
+    	etape = produit.premiere_etape
+    	
     	while etape:
-    		quantite_totale = etpae.quantite_ressource.quantite * demande
+    		quantite_necessaire = etape.quantite_ressource.quantite * nombre_crayon
     		ressource = etape.quantite_ressource.ressource
-
-			# On fait la somme des ressources necessaires
-			if ressource in ressources_necessaires:
-				ressource_necessaires[ressources] += quantite_totale
-			else:
-				ressource_necessaires[ressource] = quantite_totale
-
-			etape = etape.etape_suivant  # On passe à l'etape suivante de production
-
-
-		achats = {}  #
-		# On verifie le stock
-		à discuter comment recuperer tous les stocks de l'usine.
-	"""
+    		# On verifie le stock disponible
+    		stock = self.stock.filter(ressource=ressource).first()
+    		quantite_disponible = stock.nombre if stock else 0
+    		# si la quantite est insufisante on achete la difference
+    		if quantite_necessaire > quantite_disponible:
+    			ressources_manquantes[ressource] = quantite_necessaire - quantite_disponible  
+    		etape = etape.etape_suivante
+    		# On achete les ressources manquantes 
+    	for ressource, quantite_a_acheter in ressources_manquantes.items():
+    		cout_total = quantite_a_acheter * ressource.prix
+    		self.acheter(ressource,quantite_a_acheter,cout_total)
+    		
+    	return ressources_manquantes
+    	
+    def acheter(self,ressource, quantite,cout_total):
+    	stock, created = Stock.objects.get_or_create(usine=self, ressource=ressource)
+    	stock.nombre += quantite
+    	stock.save()
+    	
+    	return stock
 
     def json(self):
         d = {
             "Machine": [machines.pk for machines in Machine.objects.all()],
             "Produit": [produit.pk for produit in Produit.objects.all()],
+            "Siege Social": self.Siege_Social.id,
         }
         return d
 
@@ -240,6 +252,7 @@ class Usine(Local):
             "Nom": self.nom,
             "Ville": self.ville.json_extended(),
             "Surface": self.surface,
+            "Siege Social": self.Siege_Social.json_extended(),
             "Machine": [machines.json_extended() for machines in Machine.objects.all()],
             "Produit": [produit.json_extended() for produit in Produit.objects.all()],
         }
@@ -255,6 +268,7 @@ class Stock(models.Model):
     usine = models.ForeignKey(
         Usine,  # Association avec Usine
         on_delete=models.PROTECT,  # La suppression d'un stock ne supprime pas l'usine
+        related_name="stock",
     )
     nombre = models.IntegerField()
 
