@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('high_level', '0001_initial'),
+        ("high_level", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='etape',
-            name='quantite_ressource',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='high_level.quantiteressource'),
+            model_name="etape",
+            name="quantite_ressource",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="high_level.quantiteressource",
+            ),
         ),
     ]

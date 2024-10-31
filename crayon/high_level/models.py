@@ -123,7 +123,6 @@ class Machine(models.Model):
         return self.json()
 
 
-
 # Modèle représentant une étape dans un processus de production
 class Etape(models.Model):
     nom = models.CharField(max_length=100)  # Nom de l'étape
@@ -133,7 +132,6 @@ class Etape(models.Model):
         on_delete=models.PROTECT,  # La suppression d'une ressource n'entraîne pas celle de l'étape
         blank=True,
         null=True,
-        
     )
 
     machine = models.ForeignKey(
@@ -150,24 +148,32 @@ class Etape(models.Model):
 
     def __str__(self):
         return self.nom
-        
+
     def json(self):
-    	d = {
-    		"Nom": self.nom,
-    		"Durée": self.duree,
-    		"Quantité necessaire": self.quantite_ressource.id if self.quantite_ressource else None,
-    		"Machine ID": self.machine.id if self.machine else None,
-    		"Etape suivante ID": self.etape_suivante.id if self.etape_suivante else None,
-    	}
-    	return d
-    
+        d = {
+            "Nom": self.nom,
+            "Durée": self.duree,
+            "Quantité necessaire": self.quantite_ressource.id
+            if self.quantite_ressource
+            else None,
+            "Machine ID": self.machine.id if self.machine else None,
+            "Etape suivante ID": self.etape_suivante.id
+            if self.etape_suivante
+            else None,
+        }
+        return d
+
     def json_extended(self):
         d = {
             "Nom": self.nom,
             "Durée": self.duree,
-            "Quantité necessaire": self.quantite_ressource.json_extended() if self.quantite_ressource else None,
+            "Quantité necessaire": self.quantite_ressource.json_extended()
+            if self.quantite_ressource
+            else None,
             "Machine": self.machine.json_extended() if self.machine else None,
-            "Etape suivante": self.etape_suivante.json_extended() if self.etape_suivante else None,
+            "Etape suivante": self.etape_suivante.json_extended()
+            if self.etape_suivante
+            else None,
         }
         return d
 
@@ -188,19 +194,19 @@ class Produit(Objet):
             "Premiere etape": self.premiere_etape.json_extended(),
         }
         return d
-        
-        
+
+
 # Modèle représentant une usine, qui possède plusieurs machines
 class Usine(Local):
     machines = models.ManyToManyField(Machine)
     produit = models.ManyToManyField(Produit)
     Siege_Social = models.ForeignKey(
-    	SiegeSocial,
-    	on_delete=models.PROTECT,
-    	null = True,
-    	blank = True,
+        SiegeSocial,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
     )
-   
+
     def costs(self):
         Prix_terrain = self.ville.prix_m_2 * self.surface
         Prix_machines = 0  # Initialisation
@@ -209,35 +215,37 @@ class Usine(Local):
             Prix_machines = Prix_machines + machines.prix
 
         return Prix_terrain + Prix_machines
-        
-    def Acheter_Ressources(self,produit,nombre_crayon):
-    	ressources_manquantes = {}
-    	# On parcours les etapes de produit pour determiner la quantite des ressources manquantes
-    	etape = produit.premiere_etape
-    	
-    	while etape:
-    		quantite_necessaire = etape.quantite_ressource.quantite * nombre_crayon
-    		ressource = etape.quantite_ressource.ressource
-    		# On verifie le stock disponible
-    		stock = self.stock.filter(ressource=ressource).first()
-    		quantite_disponible = stock.nombre if stock else 0
-    		# si la quantite est insufisante on achete la difference
-    		if quantite_necessaire > quantite_disponible:
-    			ressources_manquantes[ressource] = quantite_necessaire - quantite_disponible  
-    		etape = etape.etape_suivante
-    		# On achete les ressources manquantes 
-    	for ressource, quantite_a_acheter in ressources_manquantes.items():
-    		cout_total = quantite_a_acheter * ressource.prix
-    		self.acheter(ressource,quantite_a_acheter,cout_total)
-    		
-    	return ressources_manquantes
-    	
-    def acheter(self,ressource, quantite,cout_total):
-    	stock, created = Stock.objects.get_or_create(usine=self, ressource=ressource)
-    	stock.nombre += quantite
-    	stock.save()
-    	
-    	return stock
+
+    def Acheter_Ressources(self, produit, nombre_crayon):
+        ressources_manquantes = {}
+        # On parcours les etapes de produit pour determiner la quantite des ressources manquantes
+        etape = produit.premiere_etape
+
+        while etape:
+            quantite_necessaire = etape.quantite_ressource.quantite * nombre_crayon
+            ressource = etape.quantite_ressource.ressource
+            # On verifie le stock disponible
+            stock = self.stock.filter(ressource=ressource).first()
+            quantite_disponible = stock.nombre if stock else 0
+            # si la quantite est insufisante on achete la difference
+            if quantite_necessaire > quantite_disponible:
+                ressources_manquantes[ressource] = (
+                    quantite_necessaire - quantite_disponible
+                )
+            etape = etape.etape_suivante
+            # On achete les ressources manquantes
+        for ressource, quantite_a_acheter in ressources_manquantes.items():
+            cout_total = quantite_a_acheter * ressource.prix
+            self.acheter(ressource, quantite_a_acheter, cout_total)
+
+        return ressources_manquantes
+
+    def acheter(self, ressource, quantite, cout_total):
+        stock, created = Stock.objects.get_or_create(usine=self, ressource=ressource)
+        stock.nombre += quantite
+        stock.save()
+
+        return stock
 
     def json(self):
         d = {
@@ -257,8 +265,8 @@ class Usine(Local):
             "Produit": [produit.json_extended() for produit in Produit.objects.all()],
         }
         return d
-        
-        
+
+
 # Modèle représentant le stock d'un objet
 class Stock(models.Model):
     ressource = models.ForeignKey(
@@ -294,4 +302,3 @@ class Stock(models.Model):
             "Nombre": self.nombre.json_extended(),
         }
         return d
-

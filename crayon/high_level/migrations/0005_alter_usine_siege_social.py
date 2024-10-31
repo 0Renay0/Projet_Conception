@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('high_level', '0004_usine_siege_social'),
+        ("high_level", "0004_usine_siege_social"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='usine',
-            name='Siege_Social',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='high_level.siegesocial'),
+            model_name="usine",
+            name="Siege_Social",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="high_level.siegesocial",
+            ),
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('high_level', '0002_alter_etape_quantite_ressource'),
+        ("high_level", "0002_alter_etape_quantite_ressource"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='usine',
-            name='produit',
-            field=models.ManyToManyField(to='high_level.produit'),
+            model_name="usine",
+            name="produit",
+            field=models.ManyToManyField(to="high_level.produit"),
         ),
     ]
