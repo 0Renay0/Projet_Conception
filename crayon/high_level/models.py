@@ -252,6 +252,7 @@ class Usine(Local):
             "Machine": [machines.pk for machines in Machine.objects.all()],
             "Produit": [produit.pk for produit in Produit.objects.all()],
             "Siege Social": self.Siege_Social.id,
+            "Cout Total": self.costs(),
         }
         return d
 
@@ -260,6 +261,7 @@ class Usine(Local):
             "Nom": self.nom,
             "Ville": self.ville.json_extended(),
             "Surface": self.surface,
+            "Cout Total": self.costs(),
             "Siege Social": self.Siege_Social.json_extended(),
             "Machine": [machines.json_extended() for machines in Machine.objects.all()],
             "Produit": [produit.json_extended() for produit in Produit.objects.all()],
