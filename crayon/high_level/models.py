@@ -186,11 +186,17 @@ class Produit(Objet):
     )
 
     def json(self):
-        d = {"Premiere etape": self.premiere_etape.id}
+        d = {
+            "Nom": self.nom,
+            "Prix": self.prix,
+            "Premiere etape": self.premiere_etape.id,
+        }
         return d
 
     def json_extended(self):
         d = {
+            "Nom": self.nom,
+            "Prix": self.prix,
             "Premiere etape": self.premiere_etape.json_extended(),
         }
         return d
@@ -218,22 +224,27 @@ class Usine(Local):
 
     def Acheter_Ressources(self, produit, nombre_crayon):
         ressources_manquantes = {}
-        # On parcours les etapes de produit pour determiner la quantite des ressources manquantes
+        # On parcourt les étapes du produit pour déterminer la quantité des ressources manquantes
         etape = produit.premiere_etape
 
         while etape:
-            quantite_necessaire = etape.quantite_ressource.quantite * nombre_crayon
-            ressource = etape.quantite_ressource.ressource
-            # On verifie le stock disponible
-            stock = self.stock.filter(ressource=ressource).first()
-            quantite_disponible = stock.nombre if stock else 0
-            # si la quantite est insufisante on achete la difference
-            if quantite_necessaire > quantite_disponible:
-                ressources_manquantes[ressource] = (
-                    quantite_necessaire - quantite_disponible
-                )
+            # Vérifie que l'étape nécessite des ressources (quantite_ressource n'est pas None)
+            if etape.quantite_ressource:
+                quantite_necessaire = etape.quantite_ressource.quantite * nombre_crayon
+                ressource = etape.quantite_ressource.ressource
+                # On vérifie le stock disponible
+                stock = self.stock.filter(ressource=ressource).first()
+                quantite_disponible = stock.nombre if stock else 0
+                # Si la quantité est insuffisante, on achète la différence
+                if quantite_necessaire > quantite_disponible:
+                    ressources_manquantes[ressource] = (
+                        quantite_necessaire - quantite_disponible
+                    )
+
+            # Passe à l'étape suivante, même si aucune ressource n'est nécessaire
             etape = etape.etape_suivante
-            # On achete les ressources manquantes
+
+        # Achat des ressources manquantes
         for ressource, quantite_a_acheter in ressources_manquantes.items():
             cout_total = quantite_a_acheter * ressource.prix
             self.acheter(ressource, quantite_a_acheter, cout_total)
@@ -248,15 +259,31 @@ class Usine(Local):
         return stock
 
     def json(self):
+        nombre_crayon = (
+            1000  # à modifier selon le besoin voir si on l'ajoute comme attribut
+        )
+        produit = Produit.objects.filter(pk=2).first()
+        ressources_manquantes = self.Acheter_Ressources(produit, nombre_crayon)
+
         d = {
             "Machine": [machines.pk for machines in Machine.objects.all()],
             "Produit": [produit.pk for produit in Produit.objects.all()],
             "Siege Social": self.Siege_Social.id,
             "Cout Total": self.costs(),
+            "Ressources manquantes": {
+                str(ressource.id): quantite
+                for ressource, quantite in ressources_manquantes.items()
+            },
         }
         return d
 
     def json_extended(self):
+        nombre_crayon = (
+            1000  # à modifier selon le besoin voir si on l'ajoute comme attribut
+        )
+        produit = Produit.objects.filter(pk=2).first()
+        ressources_manquantes = self.Acheter_Ressources(produit, nombre_crayon)
+
         d = {
             "Nom": self.nom,
             "Ville": self.ville.json_extended(),
@@ -265,6 +292,10 @@ class Usine(Local):
             "Siege Social": self.Siege_Social.json_extended(),
             "Machine": [machines.json_extended() for machines in Machine.objects.all()],
             "Produit": [produit.json_extended() for produit in Produit.objects.all()],
+            "Ressources manquantes": {
+                str(ressource.json_extended()): quantite
+                for ressource, quantite in ressources_manquantes.items()
+            },
         }
         return d
 

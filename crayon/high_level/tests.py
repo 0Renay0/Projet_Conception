@@ -59,7 +59,7 @@ class MachineModelTests(TestCase):
 
         # Créez les ressources
         ressource1 = Ressource.objects.create(nom="Bois", prix=10)
-        ressource2 = Ressource.objects.create(nom="Graphite", prix=20)
+        ressource2 = Ressource.objects.create(nom="Mine", prix=20)
 
         # Créez les machines avec le champ `n_serie`
         machine1 = Machine.objects.create(nom="Scie", prix=5000, n_serie="001")
@@ -81,7 +81,7 @@ class MachineModelTests(TestCase):
             machine=machine1,  # Machine obligatoire
         )
         etape2 = Etape.objects.create(
-            nom="Insertion de graphite",
+            nom="Insertion de mine",
             quantite_ressource=quantite_ressource2,
             etape_suivante=etape1,
             duree=15,  # Durée obligatoire

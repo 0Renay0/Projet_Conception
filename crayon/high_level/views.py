@@ -27,13 +27,6 @@ class QuantiteRessourceDetailView(DetailView):
 class SiegeSocialDetailView(DetailView):
     model = SiegeSocial
 
-    """
-	def get_object(self, queryset=None):
-		obj = self.get.queryset.first()
-		return obj
-		A revoir
-	"""
-
     def render_to_response(self, context, **response_kwargs):
         return JsonResponse(self.object.json())
 
