@@ -1,107 +1,121 @@
 #include <cpr/cpr.h>
 
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
-
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include <string>
-using namespace std;
+
+using json = nlohmann::json;
 
 class Ville {
  public:
-  string nom;
+  std::string nom;
   int code_postal;
   float prix_m_2;
 
- public:
-  // Constructeur
-  Ville(string n, int cp, float p) {
-    nom = n;
-    code_postal = cp;
-    prix_m_2 = p;
-  }
-
-  // Constructeur JSON data
-  Ville(json data) : Ville(data["nom"], data["CP"], data["Prix/m^2"]) {}
-
-  // Constructeur ID qui fera lui meme la requette
+  // Constructeur: Il prend un ID et recupere les données de la ville
   Ville(int id) {
+    // Requête HTTP
     cpr::Response r =
-        cpr::Get(cpr::Url{"http://localhost:8000/Ville/" + to_string(id)});
-    r.status_code;  // 200 Ok si 404 not found
-    r.text;         // JSON text string
+        cpr::Get(cpr::Url{"http://localhost:8000/Ville/" + std::to_string(id)});
 
+    // Parsing JSON
     json data = json::parse(r.text);
-
-    // Ville(data);
-
     nom = data["Nom"];
     code_postal = data["CP"];
     prix_m_2 = data["Prix/m^2"];
   }
 
-  // Methodes
-  //  methode equivalente à la methode str en models.py
-  friend std::ostream& operator<<(std::ostream& out, const Ville& v) {
-    return out << v.nom;
+  // Méthode d'affichage
+  void afficher() const {
+    std::cout << "Ville: " << nom << "\nCode Postal: " << code_postal
+              << "\nPrix/m^2: " << prix_m_2 << "€" << std::endl;
   }
 };
 
-class Local {
+class Machine {
  public:
-  string nom;
-  int surface;
-  Ville* ville;  // Pointeur
-};
-
-// Classe abstraite Objet
-class Objet {
- public:
-  string nom;
+  std::string nom;
   int prix;
+  long int NS;
+
+  // Constructeur
+  Machine(int id) {
+    cpr::Response r = cpr::Get(
+        cpr::Url{"http://localhost:8000/Machine/" + std::to_string(id)});
+    json data = json::parse(r.text);
+    nom = data["Nom"];
+    prix = data["Prix"];
+    NS = data["n° de serie"];
+  }
+
+  void afficher() const {
+    std::cout << "Machine: " << nom << "\nPrix: " << prix
+              << "\nn° de serie: " << NS << std::endl;
+  }
 };
 
-/*
-std::unique_ptr<A> pa = std::make_unique<A>(..... parametre du const ....);
-const auto pa = std::make_unique<A>(......) dans la vrai vie
-*/
+class Stock {
+ public:
+  int ressource_id;
+  int usine_id;
+  long int Nombre;
 
-// Fonction main
+  // Constructeur
+  Stock(int id) {
+    cpr::Response r =
+        cpr::Get(cpr::Url{"http://localhost:8000/Stock/" + std::to_string(id)});
+    json data = json::parse(r.text);
+    ressource_id = data["Ressource ID"];
+    usine_id = data["Usine ID"];
+    Nombre = data["Nombre"];
+  }
+
+  void afficher() const {
+    std::cout << "Stock Ressource: " << ressource_id << "\nUsine: " << usine_id
+              << "\nNombre: " << Nombre << std::endl;
+  }
+};
+
+class Produit {
+ public:
+  std::string nom;
+  int prix;
+  int Premiere_etape_ID;
+
+  // Constructeur
+  Produit(int id) {
+    cpr::Response r = cpr::Get(
+        cpr::Url{"http://localhost:8000/Produit/" + std::to_string(id)});
+    json data = json::parse(r.text);
+    nom = data["Nom"];
+    prix = data["Prix"];
+    Premiere_etape_ID = data["Premiere etape"];
+  }
+
+  void afficher() const {
+    std::cout << "Produit: " << nom << "\nPrix: " << prix
+              << "\nPremiere etape: " << Premiere_etape_ID << std::endl;
+  }
+};
+
 auto main() -> int {
-  const auto v = Ville("Toulouse", 31400, 2000);
-  std::cout << "Ville: " << v << std ::endl;
+  std::cout << "\n -------------------------" << std::endl;
+  // Création d'une instance de Ville avec un ID 1 pour notre ville TLS-01
+  Ville v(1);
+  v.afficher();
+  std::cout << "\n -------------------------" << std::endl;
+  // Création d'une instance de Machine avec un ID 3 car c'est le premier ID de
+  // notre base de données
+  Machine m(5);
+  m.afficher();
+  std::cout << "\n -------------------------" << std::endl;
+  // Création d'une instance de stock avec un ID 1
+  // Stock s(2);
+  // s.afficher();
+  // std::cout << "\n -------------------------" << std::endl;
+  Produit p(2);
+  p.afficher();
+  std::cout << "\n -------------------------" << std::endl;
 
-  /*
-    cpr::Response r = cpr::Get(cpr::Url{"http://localhost:8000/Ville/1/"});
-
-
-    r.status_code;             // 200 Ok si 404 not found
-    r.header["content-type"];  // application/json; charset=utf-8
-    r.text;                    // JSON text string
-
-    std::cout << r.status_code
-              << std::endl;  // verification si status code est OK ou pas
-    std::cout << r.text << std::endl;
-
-    json ville = json::parse(r.text);
-    // verification
-    std::cout << ville["CP"] << std::endl;  // Regarder le Readme JSON
-
-  */
-  const auto v1 = Ville(1);
-  std::cout << v1 << std::endl;
-
-  std::unique_ptr<Ville> pLocal = std::make_unique<Local>()
-
-      return 0;
+  return 0;
 }
-
-/*y
-class Usine{
-std::unique_ptr<Ville> ville;
-}
-
-dans cette classe, on definit un pointeur unique qui indique que une unsine peut
-exister que dans une seule ville.
-
-*/
