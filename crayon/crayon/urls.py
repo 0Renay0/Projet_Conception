@@ -39,5 +39,6 @@ urlpatterns = [
     path("Etape/<int:pk>/", views.EtapeDetailView.as_view(), name="Etape"),
     path("Produit/<int:pk>/", views.ProduitDetailView.as_view(), name="Produit"),
     path("Usine/<int:pk>/", views.UsineDetailView.as_view(), name="Usine"),
+    path("Ressource/<int:pk>/", views.RessourceDetailView.as_view(), name="Ressource"),
     path("Api/<int:pk>/", views.ApiDetailView.as_view(), name="Api"),
 ]

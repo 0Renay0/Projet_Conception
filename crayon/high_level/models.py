@@ -266,10 +266,13 @@ class Usine(Local):
         ressources_manquantes = self.Acheter_Ressources(produit, nombre_crayon)
 
         d = {
+            "Nom": [self.nom],
+            "Ville": self.ville.id,
+            "Surface": [self.surface],
+            "Cout Total": self.costs(),
+            "Siege Social": self.Siege_Social.id,
             "Machine": [machines.pk for machines in Machine.objects.all()],
             "Produit": [produit.pk for produit in Produit.objects.all()],
-            "Siege Social": self.Siege_Social.id,
-            "Cout Total": self.costs(),
             "Ressources manquantes": {
                 str(ressource.id): quantite
                 for ressource, quantite in ressources_manquantes.items()

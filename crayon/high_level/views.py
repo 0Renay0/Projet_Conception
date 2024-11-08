@@ -8,6 +8,7 @@ from .models import Stock
 from .models import Etape
 from .models import Produit
 from .models import Usine
+from .models import Ressource
 
 
 class VilleDetailView(DetailView):
@@ -19,6 +20,13 @@ class VilleDetailView(DetailView):
 
 class QuantiteRessourceDetailView(DetailView):
     model = QuantiteRessource
+
+    def render_to_response(self, context, **response_kwargs):
+        return JsonResponse(self.object.json())
+
+
+class RessourceDetailView(DetailView):
+    model = Ressource
 
     def render_to_response(self, context, **response_kwargs):
         return JsonResponse(self.object.json())
