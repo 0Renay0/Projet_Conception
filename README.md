@@ -19,4 +19,8 @@ pip install -r /path/to/requirements.txt
 ```bash
 git clone https://github.com/github_username/repo_name.git
 ```
-
+2- Changer le "git remote url" pour eviter les "push" vers le projet de base 
+```bash
+git remote set-url origin github_username/repo_name
+git remote -v # confirm the changes
+```
