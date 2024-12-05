@@ -48,3 +48,14 @@ cmake --build build
 ./build/low_level
 echo build >> .gitignore
 ```
+
+## Fonctionnalité 3 -- Test unitaire 
+Pour executer les tests unitaires: 
+```bash
+./manage.py test
+```
+Pour acceder au tests unitaire:
+```bash
+cd high_level
+open tests.py
+```
