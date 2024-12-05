@@ -24,3 +24,14 @@ git clone https://github.com/github_username/repo_name.git
 git remote set-url origin github_username/repo_name
 git remote -v # confirm the changes
 ```
+## Fonctionnalité 1 -- High level
+Création de l’interface d’administration
+```bash
+./manage.py makemigrations
+./manage.py migrate
+./manage.py createsuperuser
+./manage.py runserver
+```
+Pour utiliser l'interface, il faut se rendre au lien suivant: 
+Utilisation de l’interface d’administration
+http://localhost:8000/admin
