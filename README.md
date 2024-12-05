@@ -39,3 +39,11 @@ http://localhost:8000/admin
 ### Accees au données des objets
 Se rendre au lien suivant:
 http://localhost:8000/Object_name/Object_ID/
+
+## Fonctionnalité 2 -- low level
+```bash
+cmake -B build -S
+cmake --build build
+./build/low_level
+echo build >> .gitignore
+```
