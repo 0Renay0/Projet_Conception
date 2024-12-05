@@ -14,7 +14,9 @@ Afin d'installer l'ensemble des dependances, il suffit d'utiliser la commande su
 ```bash
 pip install -r /path/to/requirements.txt
 ```
-
-
-
+## Installation
+1- cloner le repertoire 
+```bash
+git clone https://github.com/github_username/repo_name.git
+```
 
