@@ -32,6 +32,6 @@ Création de l’interface d’administration
 ./manage.py createsuperuser
 ./manage.py runserver
 ```
+## Utilisation de l’interface d’administration
 Pour utiliser l'interface, il faut se rendre au lien suivant: 
-Utilisation de l’interface d’administration
 http://localhost:8000/admin
