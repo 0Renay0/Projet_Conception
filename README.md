@@ -35,3 +35,7 @@ Création de l’interface d’administration
 ### Utilisation de l’interface d’administration
 Pour utiliser l'interface, il faut se rendre au lien suivant: 
 http://localhost:8000/admin
+
+### Accees au données des objets
+Se rendre au lien suivant:
+http://localhost:8000/Object_name/Object_ID/
