@@ -2,6 +2,7 @@
 <p align="center">
   <img src="https://secil.univ-tlse3.fr/news/ups.jpg" alt="Université Paul Sabatier" width="300">
 </p>
+
 Le **Projet Crayon** a été développé dans le cadre du module de **Conception de Systèmes Orientés Objet à temps réel** du Master 2 ISTR à l'Université Paul Sabatier.
 
 ## Environnement virtuel 
