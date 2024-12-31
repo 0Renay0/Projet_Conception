@@ -1,6 +1,6 @@
 # Projet Crayon
 Le **Projet Crayon** a été développé dans le cadre du module de **Conception de Systèmes Orientés Objet à temps réel** du Master 2 ISTR à l'Université Paul Sabatier.
-![Université Paul Sabatier]((https://upload.wikimedia.org/wikipedia/fr/a/a4/Logo_UT3.jpg)
+![Université Paul Sabatier](https://secil.univ-tlse3.fr/news/ups.jpg)
 
 ## Environnement virtuel 
 Creer un environnement virtuel afin de ne pas toucher à vos propres modlues deja intallés. Pour cela, il faut suivre les etapes suivantes: 
