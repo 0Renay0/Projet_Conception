@@ -59,6 +59,10 @@ Pour acceder aux tests unitaire:
 cd high_level
 open tests.py
 ```
+
+## Licence
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
 ## Contact
 - **Mail**: [rayen.hamadi@univ-tlse3.fr](mailto:rayen.hamadi@univ-tlse3.fr)
 - **Mail**: [rayenhamadi48@gmail.com](mailto:rayenhamadi48@gmail.com)
