@@ -61,7 +61,11 @@ open tests.py
 ```
 
 ## Licence
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+Ce projet est sous licence [Eclipse Public License - v 2.0](LICENSE).
+
+Vous pouvez utiliser, modifier et distribuer le programme conformément aux termes de cette licence. Consultez le fichier `LICENSE` dans le dépôt pour plus de détails.
+![Licence: Eclipse Public License 2.0](https://img.shields.io/badge/License-EPL%202.0-blue.svg)
 
 ## Contact
 - **Mail**: [rayen.hamadi@univ-tlse3.fr](mailto:rayen.hamadi@univ-tlse3.fr)
