@@ -81,6 +81,7 @@ Ressource : Mine, Quantité : 30
 ```
 
 2- Test création de machine
+
 Ce test s'assure que la creation d'une machine est réalisée avec les bons attributs:
 ``` bash
 Nom de la machine : scie
@@ -89,6 +90,7 @@ Numéro de série de la machine : 16832
 ```
 
 3- Test création de l'usine
+
 Ce test calcule le coût total de creation d'une usine:
 ```bash
 Cout usine 1 :  100000
