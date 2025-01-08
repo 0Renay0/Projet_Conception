@@ -63,7 +63,7 @@ Pour acceder aux tests unitaire:
 cd high_level
 open tests.py
 ```
-# Exemples de Tests:
+### Exemples de Tests:
 
 1- Test achat de ressources nécessaires
 Ce test verifie si les ressources manquantes sont correctement identifiées et achetées pour atteindre l'objectif de production:
