@@ -54,7 +54,7 @@ echo build >> .gitignore
 ```
 Les données sont récupérées via des requêtes HTTP. 
 
-###Exemple de données:
+### Exemple de données:
 
 1- Ville
 ```bash
