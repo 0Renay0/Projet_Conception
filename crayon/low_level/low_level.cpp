@@ -359,9 +359,10 @@ class Usine {
 
   // Constructeur avec données JSON
   Usine(const json& data)
-      : nom(data.at("Nom")),
+      : nom(data.at("Nom").at(0)),  // Extraire la première valeur du tableau
         ville_id(data.at("Ville")),
-        surface(data.at("Surface")),
+        surface(data.at("Surface").at(
+            0)),  // Extraire la première valeur du tableau
         cout_total(data.at("Cout Total")),
         siege_social_id(data.at("Siege Social")),
         machines_ids(data.at("Machine").get<std::vector<int>>()),
@@ -383,9 +384,9 @@ class Usine {
     cpr::Response r =
         cpr::Get(cpr::Url{"http://localhost:8000/Usine/" + std::to_string(id)});
     json data = json::parse(r.text);
-    nom = data.value("Nom", "");
+    nom = data.at("Nom").at(0);
+    surface = data.at("Surface").at(0);
     ville_id = data.value("Ville", 0);
-    surface = data.value("Surface", 0);
     cout_total = data.value("Cout Total", 0);
     siege_social_id = data.value("Siege Social", 0);
     machines_ids = data["Machine"].get<std::vector<int>>();
@@ -435,9 +436,9 @@ class Usine {
 
 class Stock {
  public:
-  int ressource_id;
-  int usine_id;
-  int nombre;
+  int ressource_id;  // ID de la ressource
+  int usine_id;      // ID de l'usine
+  int nombre;        // Quantité de ressource en stock
   std::unique_ptr<Ressource>
       ressource;                 // Relation avec Ressource via pointeur unique
   std::unique_ptr<Usine> usine;  // Relation avec Usine via pointeur unique
@@ -455,19 +456,18 @@ class Stock {
       : ressource_id(data.at("Ressource ID ")),
         usine_id(data.at("Usine ID")),
         nombre(data.at("Nombre")),
-        ressource(std::make_unique<Ressource>(data.at("Ressource ID "))),
-        usine(std::make_unique<Usine>(data.at("Usine ID"))) {}
+        ressource(std::make_unique<Ressource>(data.at("Ressource"))),
+        usine(std::make_unique<Usine>(data.at("Usine"))) {}
 
   // Constructeur avec requête HTTP
   Stock(int id) {
     cpr::Response r =
         cpr::Get(cpr::Url{"http://localhost:8000/Stock/" + std::to_string(id)});
     json data = json::parse(r.text);
-    ressource_id = data.at("Ressource ID ");
-    usine_id = data.at("Usine ID");
-    nombre = data.at("Nombre");
+    ressource_id = data.value("Ressource ID ", 0);
+    usine_id = data.value("Usine ID", 0);
+    nombre = data.value("Nombre", 0);
 
-    // Initialisation des relations
     ressource = std::make_unique<Ressource>(ressource_id);
     usine = std::make_unique<Usine>(usine_id);
   }
@@ -475,15 +475,12 @@ class Stock {
   // Méthode pour afficher les données
   void afficher() const {
     std::cout << "Ressource ID: " << ressource_id << "\n";
-
-    std::cout << "Détails de la Ressource:\n";
+    std::cout << "Détails de la ressource:\n";
     ressource->afficher();
-    std::cout << "Nombre: " << nombre << std::endl;
-
-    std::cout << "\nUsine ID: " << usine_id << "\n";
-
-    std::cout << "Détails de l'Usine:\n";
+    std::cout << "Usine ID: " << usine_id << "\n";
+    std::cout << "Détails de l'usine:\n";
     usine->afficher();
+    std::cout << "Nombre: " << nombre << "\n";
   }
 };
 
@@ -508,7 +505,7 @@ int main() {
   produit.afficher();
 
   std::cout << "\n -------------------------\n" << std::endl;
-  Stock stock(1);
+  Stock stock(2);
   stock.afficher();
 
   std::cout << "\n -------------------------\n" << std::endl;
@@ -518,6 +515,6 @@ int main() {
   std::cout << "\n -------------------------\n" << std::endl;
   Usine usine(1);
   usine.afficher();
-
+  std::cout << "\n -------------------------\n" << std::endl;
   return 0;
 }
