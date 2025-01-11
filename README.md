@@ -4,7 +4,9 @@
 </p>
 
 Le **Projet Crayon** a été développé dans le cadre du module de **Conception de Systèmes Orientés Objet à temps réel** du Master 2 ISTR à l'Université Paul Sabatier III. C'est une application Django dédiée à la gestion et à la simulation du processus de fabrications de crayons. On modélise des parties clés telles que les machines, ressources et l'usine tout en permettant leur gestion via l'interface d'administration Django. L'ensemble de la conception du système était basé sur le diagramme de classes UML, comme le montre la figure ci-dessous.
-
+<p align="center"
+	![Diagramme de classes UML](crayon.png)
+</p>
 ## Environnement virtuel
 Creer un environnement virtuel afin de ne pas toucher à vos propres modlues deja intallés. Pour cela, il faut suivre les etapes suivantes:
 ```bash
