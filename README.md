@@ -210,3 +210,8 @@ Vous pouvez utiliser, modifier et distribuer le programme conformément aux term
 ## Contact
 - **Mail**: [rayen.hamadi@univ-tlse3.fr](mailto:rayen.hamadi@univ-tlse3.fr)
 - **Mail**: [rayenhamadi48@gmail.com](mailto:rayenhamadi48@gmail.com)
+  
+## Encadrement
+Guilhem Saurel 
+Equipe IDEA au LAAS CNRS 
+**Mail**: [guilhem.saurel@laas.fr](mailto:guilhem.saurel@laas.fr)
