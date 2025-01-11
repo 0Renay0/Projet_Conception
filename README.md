@@ -213,5 +213,7 @@ Vous pouvez utiliser, modifier et distribuer le programme conformément aux term
   
 ## Encadrement
 Guilhem Saurel 
+
 Equipe IDEA au LAAS CNRS 
+
 **Mail**: [guilhem.saurel@laas.fr](mailto:guilhem.saurel@laas.fr)
