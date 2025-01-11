@@ -210,6 +210,7 @@ Vous pouvez utiliser, modifier et distribuer le programme conformément aux term
 ## Contact
 - **Mail**: [rayen.hamadi@univ-tlse3.fr](mailto:rayen.hamadi@univ-tlse3.fr)
 - **Mail**: [rayenhamadi48@gmail.com](mailto:rayenhamadi48@gmail.com)
+- [![LinkedIn](https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png)](www.linkedin.com/in/rayen-hamadi)
   
 ## Encadrement
 Guilhem Saurel 
