@@ -40,9 +40,13 @@ Création de l’interface d’administration
 Pour utiliser l'interface, il faut se rendre au lien suivant:
 http://localhost:8000/admin
 
-### Accees au données des objets
+### Accès au données des objets
 Se rendre au lien suivant:
 http://localhost:8000/Object_name/Object_ID/
+
+Dans le fichier urls.py on relie les routtes aux vues associées définies dans le fichier views.py. Dans le fichier views.py, les classes de type DetailView sont utilisées pour récuperer les données d'un objet depuis la base de données et les renvoyer sous forme de reponse JSON ou JSON EXTENDED. 
+
+A partir de ce lien, on peut visulaiser les données de nos objets tels que machine ou produit sous forme de JSON ou données brutes. 
 
 ## Fonctionnalité 2 -- low level
 Compilation du projet
