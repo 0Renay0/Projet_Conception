@@ -1,4 +1,12 @@
-# Create your tests here.
+"""
+On définit des tests unitaires pour vérifier que les fonctionnalités
+principales de l'application fonctionnent correctement. On définit ainsi
+trois tests:
+1- Test de création d'une machine
+2- Test de création d'une usine (Vérification d'entités et prix total)
+3- Test d'achat de ressources nécessaires
+"""
+
 from django.test import TestCase
 from .models import Machine
 from .models import Ville

@@ -22,23 +22,53 @@ from high_level import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(
-        "Ville/<int:pk>/", views.VilleDetailView.as_view(), name="Ville"
+        "Ville/<int:pk>/",
+        views.VilleDetailView.as_view(),  # Indice commence à 1
+        name="Ville",
     ),  # <int:pk> c'est pour indiquer l'id de la ville
     path(
         "QuantiteRessource/<int:pk>/",
-        views.QuantiteRessourceDetailView.as_view(),
+        views.QuantiteRessourceDetailView.as_view(),  # Indice commence à 4
         name="Quantite de ressource",
     ),
     path(
         "SiegeSocial/<int:pk>/",
         views.SiegeSocialDetailView.as_view(),
-        name="Siege Social",
+        name="Siege Social",  # Indice commence à 1
     ),
-    path("Machine/<int:pk>/", views.MachineDetailView.as_view(), name="Machine"),
-    path("Stock/<int:pk>/", views.StockDetailView.as_view(), name="Stock"),
-    path("Etape/<int:pk>/", views.EtapeDetailView.as_view(), name="Etape"),
-    path("Produit/<int:pk>/", views.ProduitDetailView.as_view(), name="Produit"),
-    path("Usine/<int:pk>/", views.UsineDetailView.as_view(), name="Usine"),
-    path("Ressource/<int:pk>/", views.RessourceDetailView.as_view(), name="Ressource"),
-    path("Api/<int:pk>/", views.ApiDetailView.as_view(), name="Api"),
+    path(
+        "Machine/<int:pk>/",
+        views.MachineDetailView.as_view(),  # Indice commence à 3
+        name="Machine",
+    ),
+    path(
+        "Stock/<int:pk>/",
+        views.StockDetailView.as_view(),  # Indice commence à 1
+        name="Stock",
+    ),
+    path(
+        "Etape/<int:pk>/",
+        views.EtapeDetailView.as_view(),  # Indice commence à 3
+        name="Etape",
+    ),
+    path(
+        "Produit/<int:pk>/",
+        views.ProduitDetailView.as_view(),  # Indice commence à 2
+        name="Produit",
+    ),
+    path(
+        "Usine/<int:pk>/",
+        views.UsineDetailView.as_view(),  # Indice commence à 1
+        name="Usine",
+    ),
+    path(
+        "Ressource/<int:pk>/",
+        views.RessourceDetailView.as_view(),  # Indice commence à 1
+        name="Ressource",
+    ),
+    path(
+        "Api/<int:pk>/",
+        views.ApiDetailView.as_view(),  # Indice commence à 1
+        name="Api",
+    ),
 ]

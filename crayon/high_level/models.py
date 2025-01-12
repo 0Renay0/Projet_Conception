@@ -1,9 +1,13 @@
-# Create your models here.
+"""
+On définit la structure de la base de données pour notre application(ref: Diagramme de Classe dans le fichier README.md).
+L'application s'appuie sur plusieurs entités telles que Ville et Usine.
+Pour definir ces entités, on se base sur l'heritage de modeles abstraits(Objet et Local).
+On utilise des methodes comme json et json_extended afin de séerialiser les données des modèles en format JSON.
+"""
+
 from django.db import models
 
 
-### def costs dans stock / usine / machines / ensuite faire la somme
-# Modèle représentant une ville avec nom, code postal et prix au mètre carré
 class Ville(models.Model):
     nom = models.CharField(max_length=100)
     code_postal = models.IntegerField()
