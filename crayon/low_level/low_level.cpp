@@ -1,3 +1,9 @@
+/*
+Cette partie est la partie bas niveau de notre projet qui sert à la gestion des
+différentes structures. Elle interagit avec la base de données Django qui expose
+les données sous forme de JSON. On récupere les données des entités telles que
+Ville, Ressource et Machine via des requêtes HTTP.
+*/
 #include <cpr/cpr.h>
 
 #include <iostream>

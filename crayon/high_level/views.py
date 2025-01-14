@@ -1,3 +1,9 @@
+"""
+On implémente des vues génériques Django basées sur la classe DetailView.
+Ainsi, on renvoi les détails des objets sous forme de JSON.
+Chaque modèle (Ville,Machine...) a sa propore classe de vue dédiée.
+"""
+
 from django.views.generic import DetailView
 from django.http import JsonResponse
 from .models import Ville
